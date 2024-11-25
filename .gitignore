@@ -16,6 +16,8 @@ dist-ssr/
 # Python Virtual Environment (Backend)
 env/
 venv/
+.env
+
 
 # Python Cache Files
 __pycache__/
