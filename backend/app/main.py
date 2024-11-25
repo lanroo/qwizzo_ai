@@ -8,9 +8,18 @@ import jwt
 from passlib.context import CryptContext
 from datetime import datetime, timedelta
 from pydantic import BaseModel
+from fastapi.middleware.cors import CORSMiddleware
 
 # Configuração do FastAPI
 app = FastAPI()  
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  
+    allow_credentials=True,
+    allow_methods=["*"],  
+    allow_headers=["*"],  
+)
 
 # Definindo um modelo Pydantic para receber as credenciais
 class UserLogin(BaseModel):
@@ -26,13 +35,14 @@ def verify_password(plain_password, hashed_password):
     return pwd_context.verify(plain_password, hashed_password)
 
 # Função para criar o token JWT (agora com expiração de 1 ano)
-def create_access_token(data: dict, expires_delta: timedelta = timedelta(days=365)):  # Token válido por 1 ano
+def create_access_token(data: dict, expires_delta: timedelta = timedelta(days=365)):  
     to_encode = data.copy() 
     expire = datetime.utcnow() + expires_delta  
     to_encode.update({"exp": expire})  
-    encoded_jwt = jwt.encode(to_encode, os.getenv("SECRET_KEY"), algorithm="HS256")  # Codifica o token
+    encoded_jwt = jwt.encode(to_encode, os.getenv("SECRET_KEY"), algorithm="HS256")  
     return encoded_jwt
 
+# Carregar variáveis de ambiente
 load_dotenv()
 
 # Configurações do Banco de Dados

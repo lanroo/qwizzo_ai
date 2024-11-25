@@ -1,4 +1,17 @@
 {
+  "name": "qwizzo_ai",
+  "version": "1.0.0",
+  "scripts": {
+    "dev:frontend": "npm run dev --workspace frontend", 
+    "build:frontend": "npm run build --workspace frontend",
+    "dev:backend": "uvicorn app.main:app --reload",
+    "build:backend": "echo 'Backend build step'",
+    "install:frontend": "npm install --workspace frontend",
+    "install:backend": "pip install -r backend/requirements.txt"
+  },
+  "workspaces": [
+    "frontend"
+  ],
   "devDependencies": {
     "@vue/tsconfig": "^0.6.0",
     "typescript": "^5.7.2"
